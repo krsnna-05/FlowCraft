@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDown, ArrowRight } from "lucide-react";
+import { MoveHorizontal, MoveVerticalIcon } from "lucide-react";
 import useReactFlowStore from "@/store/ReactFlowStore";
 
 const AddNode = () => {
@@ -34,11 +34,11 @@ const AddNode = () => {
   return (
     <div className="flex gap-2">
       <Button onClick={addVerticalNode} className="gap-2">
-        <ArrowDown size={18} />
+        <MoveVerticalIcon size={18} />
         Add Vertical Node
       </Button>
       <Button onClick={addHorizontalNode} className="gap-2">
-        <ArrowRight size={18} />
+        <MoveHorizontal size={18} />
         Add Horizontal Node
       </Button>
     </div>

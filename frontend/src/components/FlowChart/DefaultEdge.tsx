@@ -18,7 +18,7 @@ export function DefaultEdge({
     targetPosition,
   });
 
-  const strokeColor = "gray";
+  const strokeColor = "#525252";
 
   return (
     <g>

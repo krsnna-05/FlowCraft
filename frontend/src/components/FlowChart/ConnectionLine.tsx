@@ -9,9 +9,7 @@ export const ConnectionLineComponent = ({
   toX,
   toY,
 }: ConnectionLineComponentProps) => {
-  const { fromHandle } = useConnection();
-
-  const strokeColor = fromHandle?.id || "gray";
+  const strokeColor = "#d1d5db";
 
   return (
     <g>

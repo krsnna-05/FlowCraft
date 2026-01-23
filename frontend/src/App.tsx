@@ -6,7 +6,6 @@ import {
   applyEdgeChanges,
   addEdge,
   Background,
-  Panel,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -99,10 +98,10 @@ export default function App() {
         fitView
       >
         <Background />
-        <Panel position="bottom-right">
-          <AddNode />
-        </Panel>
       </ReactFlow>
+      <div className="absolute bottom-6 right-6">
+        <AddNode />
+      </div>
     </div>
   );
 }
