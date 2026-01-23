@@ -13,7 +13,6 @@ import "@xyflow/react/dist/style.css";
 import type {
   OnNodesChange,
   OnEdgesChange,
-  Edge,
   Connection,
   OnConnect,
   EdgeChange,
@@ -29,28 +28,6 @@ import { ConnectionLineComponent } from "./components/FlowChart/ConnectionLine";
 import { DefaultEdge } from "./components/FlowChart/DefaultEdge";
 import AddNode from "./components/FlowChart/UI/AddNode";
 
-const initialNodes: DefautlAppNode[] = [
-  {
-    id: "n1",
-    position: { x: 0, y: 0 },
-    data: { label: "Node 1", handleOrientation: "horizontal" },
-    type: "defaultAppNode",
-  },
-  {
-    id: "n2",
-    position: { x: 0, y: 100 },
-    data: { label: "Node 2", handleOrientation: "horizontal" },
-    type: "defaultAppNode",
-  },
-  {
-    id: "n3",
-    position: { x: 200, y: 100 },
-    data: { label: "Node 3", handleOrientation: "horizontal" },
-    type: "defaultAppNode",
-  },
-];
-const initialEdges: Edge[] = [];
-
 const NodeTypes = {
   defaultAppNode: DefaultNode,
 };
@@ -61,11 +38,6 @@ const EdgeTypes = {
 
 export default function App() {
   const { nodes, edges, setNodes, setEdges } = useReactFlowStore();
-
-  useEffect(() => {
-    setNodes(initialNodes);
-    setEdges(initialEdges);
-  }, []);
 
   const onNodesChange: OnNodesChange<DefautlAppNode> = useCallback(
     (changes: NodeChange[]) =>

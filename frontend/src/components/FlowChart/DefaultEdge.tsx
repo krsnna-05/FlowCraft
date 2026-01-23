@@ -1,4 +1,5 @@
 import { getSmoothStepPath, type EdgeProps } from "@xyflow/react";
+import { ButtonEdge } from "../button-edge";
 
 export function DefaultEdge({
   id,
