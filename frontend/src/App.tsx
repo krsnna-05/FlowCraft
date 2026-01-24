@@ -27,6 +27,12 @@ import useReactFlowStore from "./store/ReactFlowStore";
 import { ConnectionLineComponent } from "./components/FlowChart/ConnectionLine";
 import { DefaultEdge } from "./components/FlowChart/DefaultEdge";
 import AddNode from "./components/FlowChart/UI/AddNode";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarProvider,
+} from "./components/ui/sidebar";
+import Layout from "./pages/Create/Layout";
 
 const NodeTypes = {
   defaultAppNode: DefaultNode,
@@ -58,22 +64,27 @@ export default function App() {
 
   return (
     <div className="w-screen h-screen">
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        nodeTypes={NodeTypes}
-        edgeTypes={EdgeTypes}
-        connectionLineComponent={ConnectionLineComponent}
-        fitView
-      >
-        <Background />
-      </ReactFlow>
-      <div className="absolute bottom-6 right-6">
-        <AddNode />
-      </div>
+      <Layout>
+        <div className="relative w-full h-full">
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            nodeTypes={NodeTypes}
+            edgeTypes={EdgeTypes}
+            connectionLineComponent={ConnectionLineComponent}
+            fitView
+            className="w-full h-full"
+          >
+            <Background />
+          </ReactFlow>
+          <div className="absolute bottom-6 right-6">
+            <AddNode />
+          </div>
+        </div>
+      </Layout>
     </div>
   );
 }
