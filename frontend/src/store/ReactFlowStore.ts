@@ -17,6 +17,8 @@ type ReactFlowStore = {
   addNode: (node: DefautlAppNode) => void;
   deleteNode: (nodeId: string) => void;
   deleteEdge: (edgeId: string) => void;
+
+  editNodeLabel?: (nodeId: string, newLabel: string) => void;
 };
 
 const useReactFlowStore = create<ReactFlowStore>(
@@ -34,6 +36,14 @@ const useReactFlowStore = create<ReactFlowStore>(
     deleteEdge: (edgeId: string) =>
       set((state) => ({
         edges: state.edges.filter((edge) => edge.id !== edgeId),
+      })),
+    editNodeLabel: (nodeId: string, newLabel: string) =>
+      set((state) => ({
+        nodes: state.nodes.map((node) =>
+          node.id === nodeId
+            ? { ...node, data: { ...node.data, label: newLabel } }
+            : node,
+        ),
       })),
   }),
 );
