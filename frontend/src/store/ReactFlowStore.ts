@@ -16,6 +16,7 @@ type ReactFlowStore = {
 
   addNode: (node: DefautlAppNode) => void;
   deleteNode: (nodeId: string) => void;
+  deleteEdge: (edgeId: string) => void;
 };
 
 const useReactFlowStore = create<ReactFlowStore>(
@@ -29,6 +30,10 @@ const useReactFlowStore = create<ReactFlowStore>(
     deleteNode: (nodeId: string) =>
       set((state) => ({
         nodes: state.nodes.filter((node) => node.id !== nodeId),
+      })),
+    deleteEdge: (edgeId: string) =>
+      set((state) => ({
+        edges: state.edges.filter((edge) => edge.id !== edgeId),
       })),
   }),
 );
