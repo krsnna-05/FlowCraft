@@ -3,10 +3,14 @@ import { AppSidebar } from "./AppSidebar";
 import useSidebarStore from "@/store/SidebarStore";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { isOpen } = useSidebarStore();
+  const { isOpen, setIsOpen } = useSidebarStore();
 
   return (
-    <SidebarProvider className="flex w-full h-screen" open={isOpen}>
+    <SidebarProvider
+      className="flex w-full h-screen"
+      open={isOpen}
+      onOpenChange={setIsOpen}
+    >
       <AppSidebar />
       <main className="flex flex-col flex-1 w-full h-full overflow-hidden">
         <div className="flex-1 w-full overflow-auto">{children}</div>
