@@ -6,10 +6,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { isOpen } = useSidebarStore();
 
   return (
-    <SidebarProvider className="flex w-full h-full" open={isOpen}>
+    <SidebarProvider className="flex w-full h-screen" open={isOpen}>
       <AppSidebar />
-      <main className="flex flex-col flex-1 w-full h-full">
-        <div className="flex-1 w-full">{children}</div>
+      <main className="flex flex-col flex-1 w-full h-full overflow-hidden">
+        <div className="flex-1 w-full overflow-auto">{children}</div>
       </main>
     </SidebarProvider>
   );

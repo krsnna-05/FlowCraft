@@ -37,7 +37,7 @@ export function AppSidebar() {
   const { toggleSidebar, currMenu, setCurrMenu } = useSidebarStore();
 
   return (
-    <Sidebar className="" collapsible="icon">
+    <Sidebar className="">
       <SidebarContent>
         <SidebarGroup>
           {/* Menu Toggle Button */}

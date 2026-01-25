@@ -6,6 +6,8 @@ import {
   applyEdgeChanges,
   addEdge,
   Background,
+  Controls,
+  ControlButton,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -24,9 +26,11 @@ import { DefaultNode } from "@/components/FlowChart/DefaultNode";
 import type { DefautlAppNode } from "./store/ReactFlowStore";
 
 import useReactFlowStore from "./store/ReactFlowStore";
+import useSidebarStore from "./store/SidebarStore";
 import { ConnectionLineComponent } from "./components/FlowChart/ConnectionLine";
 import { DefaultEdge } from "./components/FlowChart/DefaultEdge";
 import Layout from "./pages/Create/Layout";
+import { MenuIcon } from "lucide-react";
 
 const NodeTypes = {
   defaultAppNode: DefaultNode,
@@ -38,6 +42,7 @@ const EdgeTypes = {
 
 export default function App() {
   const { nodes, edges, setNodes, setEdges } = useReactFlowStore();
+  const { toggleSidebar } = useSidebarStore();
 
   const onNodesChange: OnNodesChange<DefautlAppNode> = useCallback(
     (changes: NodeChange[]) =>
@@ -56,8 +61,17 @@ export default function App() {
     [edges, setEdges],
   );
 
+  const handleToggleSidebar = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleSidebar();
+    },
+    [toggleSidebar],
+  );
+
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-dvh">
       <Layout>
         <div className="relative w-full h-full">
           <ReactFlow
@@ -72,6 +86,20 @@ export default function App() {
             fitView
             className="w-full h-full"
           >
+            <Controls
+              className="bottom-20! left-2! right-auto! md:bottom-3! md:left-3! [&>button]:pointer-events-auto z-50"
+              showFitView={false}
+              showInteractive={false}
+            >
+              <ControlButton
+                onClick={handleToggleSidebar}
+                onTouchStart={handleToggleSidebar as any}
+                title="Toggle Sidebar"
+                style={{ pointerEvents: "auto" }}
+              >
+                <MenuIcon className="w-4 h-4" />
+              </ControlButton>
+            </Controls>
             <Background />
           </ReactFlow>
         </div>

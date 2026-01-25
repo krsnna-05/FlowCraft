@@ -5,6 +5,7 @@ type SidebarStore = {
   toggleSidebar: () => void;
   openSidebar: () => void;
   closeSidebar: () => void;
+  setIsOpen: (isOpen: boolean) => void;
   currMenu: "menu" | "add" | "ai";
   setCurrMenu: (menu: "menu" | "add" | "ai") => void;
 };
@@ -17,6 +18,7 @@ const useSidebarStore = create<SidebarStore>((set) => ({
     })),
   openSidebar: () => set({ isOpen: true }),
   closeSidebar: () => set({ isOpen: false }),
+  setIsOpen: (isOpen) => set({ isOpen }),
 
   currMenu: "menu",
   setCurrMenu: (menu) => set({ currMenu: menu }),
