@@ -26,12 +26,6 @@ import type { DefautlAppNode } from "./store/ReactFlowStore";
 import useReactFlowStore from "./store/ReactFlowStore";
 import { ConnectionLineComponent } from "./components/FlowChart/ConnectionLine";
 import { DefaultEdge } from "./components/FlowChart/DefaultEdge";
-import AddNode from "./components/FlowChart/UI/AddNode";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarProvider,
-} from "./components/ui/sidebar";
 import Layout from "./pages/Create/Layout";
 
 const NodeTypes = {
@@ -80,9 +74,6 @@ export default function App() {
           >
             <Background />
           </ReactFlow>
-          <div className="absolute bottom-6 right-6">
-            <AddNode />
-          </div>
         </div>
       </Layout>
     </div>

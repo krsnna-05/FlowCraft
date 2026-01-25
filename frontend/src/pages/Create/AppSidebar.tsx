@@ -1,65 +1,54 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
-
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
+  BotIcon,
+  Calendar,
+  Home,
+  Inbox,
+  PlusCircle,
+  Search,
+  Settings,
+  type LucideProps,
+} from "lucide-react";
+
+import { Sidebar, SidebarContent, SidebarGroup } from "@/components/ui/sidebar";
+import {
+  useState,
+  type ForwardRefExoticComponent,
+  type RefAttributes,
+} from "react";
+import MenuComponent from "@/components/FlowChart/Sidebar/MenuComponent";
+
+type MenuItem = {
+  title: string;
+  icon: ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+  >;
+  switchWord: "add" | "ai" | "menu";
+};
 
 // Menu items.
-const items = [
+const items: MenuItem[] = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Add",
+    icon: PlusCircle,
+    switchWord: "add",
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    title: "AI Assistant",
+    icon: BotIcon,
+    switchWord: "ai",
   },
 ];
 
 export function AppSidebar() {
+  const [currMenu, setCurrMenu] = useState<"menu" | "add" | "ai">("menu");
+
   return (
-    <Sidebar className=" w-[256px]">
+    <Sidebar className="" collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          {currMenu === "menu" && (
+            <MenuComponent items={items} setMenu={setCurrMenu} />
+          )}
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
