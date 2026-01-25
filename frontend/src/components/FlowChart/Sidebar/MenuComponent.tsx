@@ -1,10 +1,5 @@
 import type { LucideProps } from "lucide-react";
-import type {
-  ForwardRefExoticComponent,
-  RefAttributes,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import type { ForwardRefExoticComponent, RefAttributes } from "react";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -26,11 +21,10 @@ type MenuItem = {
 
 type MenuComponentProps = {
   items: MenuItem[];
-  setMenu?: Dispatch<SetStateAction<"add" | "ai" | "menu">>;
 };
 
-const MenuComponent = ({ items, setMenu }: MenuComponentProps) => {
-  const { openSidebar } = useSidebarStore();
+const MenuComponent = ({ items }: MenuComponentProps) => {
+  const { openSidebar, setCurrMenu } = useSidebarStore();
 
   return (
     <SidebarGroup>
@@ -44,8 +38,8 @@ const MenuComponent = ({ items, setMenu }: MenuComponentProps) => {
               <SidebarMenuButton asChild>
                 <button
                   onClick={() => {
-                    setMenu && setMenu(item.switchWord);
-                    openSidebar && openSidebar();
+                    setCurrMenu(item.switchWord);
+                    openSidebar();
                   }}
                 >
                   {<item.icon />}

@@ -1,11 +1,20 @@
 import { SidebarGroup, SidebarGroupLabel } from "@/components/ui/sidebar";
 import { BaseNode, BaseNodeContent } from "@/components/base-node";
+import { MoveLeft } from "lucide-react";
+import useSidebarStore from "@/store/SidebarStore";
 
 const NodeDropBox = () => {
+  const { setCurrMenu } = useSidebarStore();
+
   return (
     <SidebarGroup className=" flex flex-col gap-4">
       <SidebarGroupLabel className=" flex justify-between">
         <span>Add Node (drag)</span>
+
+        <MoveLeft
+          onClick={() => setCurrMenu("menu")}
+          className=" hover:scale-105"
+        />
       </SidebarGroupLabel>
 
       {/* Horizontal Node Preview */}

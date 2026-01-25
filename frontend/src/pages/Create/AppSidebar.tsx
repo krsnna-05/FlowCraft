@@ -1,11 +1,7 @@
 import { BotIcon, PlusCircle, Menu, type LucideProps } from "lucide-react";
 
 import { Sidebar, SidebarContent, SidebarGroup } from "@/components/ui/sidebar";
-import {
-  useState,
-  type ForwardRefExoticComponent,
-  type RefAttributes,
-} from "react";
+import { type ForwardRefExoticComponent, type RefAttributes } from "react";
 import MenuComponent from "@/components/FlowChart/Sidebar/MenuComponent";
 import NodeDropBox from "@/components/FlowChart/Sidebar/NodeDropBox";
 import useSidebarStore from "@/store/SidebarStore";
@@ -38,8 +34,7 @@ const items: MenuItem[] = [
 ];
 
 export function AppSidebar() {
-  const [currMenu, setCurrMenu] = useState<"menu" | "add" | "ai">("menu");
-  const { toggleSidebar } = useSidebarStore();
+  const { toggleSidebar, currMenu, setCurrMenu } = useSidebarStore();
 
   return (
     <Sidebar className="" collapsible="icon">
@@ -62,9 +57,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          {currMenu === "menu" && (
-            <MenuComponent items={items} setMenu={setCurrMenu} />
-          )}
+          {currMenu === "menu" && <MenuComponent items={items} />}
           {currMenu === "add" && <NodeDropBox />}
         </SidebarGroup>
       </SidebarContent>
