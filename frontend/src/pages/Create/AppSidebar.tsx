@@ -6,6 +6,7 @@ import {
   PlusCircle,
   Search,
   Settings,
+  Menu,
   type LucideProps,
 } from "lucide-react";
 
@@ -16,6 +17,13 @@ import {
   type RefAttributes,
 } from "react";
 import MenuComponent from "@/components/FlowChart/Sidebar/MenuComponent";
+import NodeDropBox from "@/components/FlowChart/Sidebar/NodeDropBox";
+import useSidebarStore from "@/store/SidebarStore";
+import {
+  SidebarMenuButton,
+  SidebarMenu,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 
 type MenuItem = {
   title: string;
@@ -41,14 +49,33 @@ const items: MenuItem[] = [
 
 export function AppSidebar() {
   const [currMenu, setCurrMenu] = useState<"menu" | "add" | "ai">("menu");
+  const { isOpen, toggleSidebar } = useSidebarStore();
 
   return (
     <Sidebar className="" collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
+          {/* Menu Toggle Button */}
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                onClick={() => {
+                  toggleSidebar();
+                  setCurrMenu("menu");
+                }}
+              >
+                <Menu />
+                <span>Menu</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarGroup>
           {currMenu === "menu" && (
             <MenuComponent items={items} setMenu={setCurrMenu} />
           )}
+          {currMenu === "add" && <NodeDropBox />}
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>

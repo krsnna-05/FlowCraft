@@ -12,7 +12,6 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import useSidebarStore from "@/store/SidebarStore";
 
@@ -37,12 +36,6 @@ const MenuComponent = ({ items, setMenu }: MenuComponentProps) => {
     <SidebarGroup>
       <SidebarGroupLabel className=" flex justify-between">
         <span>Menu</span>
-        <SidebarTrigger
-          size="lg"
-          onClick={() => {
-            closeSidebar();
-          }}
-        />
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
