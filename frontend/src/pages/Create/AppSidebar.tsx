@@ -1,14 +1,4 @@
-import {
-  BotIcon,
-  Calendar,
-  Home,
-  Inbox,
-  PlusCircle,
-  Search,
-  Settings,
-  Menu,
-  type LucideProps,
-} from "lucide-react";
+import { BotIcon, PlusCircle, Menu, type LucideProps } from "lucide-react";
 
 import { Sidebar, SidebarContent, SidebarGroup } from "@/components/ui/sidebar";
 import {
@@ -49,7 +39,7 @@ const items: MenuItem[] = [
 
 export function AppSidebar() {
   const [currMenu, setCurrMenu] = useState<"menu" | "add" | "ai">("menu");
-  const { isOpen, toggleSidebar } = useSidebarStore();
+  const { toggleSidebar } = useSidebarStore();
 
   return (
     <Sidebar className="" collapsible="icon">

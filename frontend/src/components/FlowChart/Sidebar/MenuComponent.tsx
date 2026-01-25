@@ -30,7 +30,7 @@ type MenuComponentProps = {
 };
 
 const MenuComponent = ({ items, setMenu }: MenuComponentProps) => {
-  const { openSidebar, closeSidebar } = useSidebarStore();
+  const { openSidebar } = useSidebarStore();
 
   return (
     <SidebarGroup>
