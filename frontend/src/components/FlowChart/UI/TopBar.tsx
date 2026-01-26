@@ -1,4 +1,4 @@
-import { Workflow, PanelLeft, GitBranch, BotIcon } from "lucide-react";
+import { Workflow, GitBranch, BotIcon } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import useReactFlowStore from "@/store/ReactFlowStore";
 
