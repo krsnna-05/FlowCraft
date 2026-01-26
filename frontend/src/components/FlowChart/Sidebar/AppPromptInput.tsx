@@ -25,9 +25,16 @@ const AppPromptInput = ({
   const [text, setText] = useState("");
 
   const onSubmit = (message: PromptInputMessage) => {
+    const generateId = () => {
+      if (typeof crypto !== "undefined" && crypto.randomUUID) {
+        return crypto.randomUUID();
+      }
+      return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    };
+
     setMessages((prev: UIMessage[]) =>
       prev.concat({
-        id: crypto.randomUUID(),
+        id: generateId(),
         role: "user",
         content: message.text,
         parts: [{ type: "text", text: message.text }],

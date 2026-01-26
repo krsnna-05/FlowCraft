@@ -10,3 +10,10 @@
 .animated-edge {
   animation: dashMove 0.5s linear infinite;
 }
+
+.jetbrains-mono {
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: normal;
+  font-style: normal;
+}

@@ -75,7 +75,7 @@ export default function App() {
   );
 
   return (
-    <div className="w-screen h-screen flex flex-col">
+    <div className="w-screen h-screen flex flex-col jetbrains-mono">
       <TopBar />
       <div className="flex flex-1 relative">
         {/* Sidebar - hidden on mobile unless mobileView is "sidebar" */}
