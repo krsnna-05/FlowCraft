@@ -1,7 +1,6 @@
 import {
   Conversation,
   ConversationContent,
-  ConversationEmptyState,
   ConversationScrollButton,
 } from "@/components/ai-elements/conversation";
 import {
@@ -69,7 +68,7 @@ const EmptyState = () => (
 
 const AppConversation = ({ messages }: AppConversationProps) => {
   return (
-    <Conversation className="max-h-145 md:max-h-200">
+    <Conversation className="flex-1 overflow-y-auto">
       <ConversationContent>
         {messages.length === 0 ? (
           <EmptyState />

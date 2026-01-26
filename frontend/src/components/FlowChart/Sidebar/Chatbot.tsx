@@ -11,7 +11,7 @@ const Chatbot = () => {
   });
 
   return (
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-col flex-1 overflow-hidden">
       <AppConversation messages={messages} />
       <AppPromptInput
         status={status}
