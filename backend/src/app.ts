@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 
 // type imports
 import type { Request, Response } from "express";
@@ -7,6 +8,9 @@ import type { Request, Response } from "express";
 // configures dotenv to work in your application
 dotenv.config();
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
 
 const PORT = process.env.PORT;
 
