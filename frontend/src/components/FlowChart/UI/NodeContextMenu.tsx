@@ -22,7 +22,12 @@ interface NodeContextMenuProps {
   onDelete: (nodeId: string) => void;
   onEdit?: (nodeId: string, newLabel: string) => void;
   handles?: { top: boolean; right: boolean; bottom: boolean; left: boolean };
-  onUpdateHandles?: (handles: { top: boolean; right: boolean; bottom: boolean; left: boolean }) => void;
+  onUpdateHandles?: (handles: {
+    top: boolean;
+    right: boolean;
+    bottom: boolean;
+    left: boolean;
+  }) => void;
 }
 
 const Divider = () => <div className="my-1 h-px w-full bg-border" />;
@@ -157,7 +162,9 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({
               type="multiple"
               className=""
               variant={"outline"}
-              value={Object.keys(localHandles).filter((key) => localHandles[key as keyof typeof localHandles])}
+              value={Object.keys(localHandles).filter(
+                (key) => localHandles[key as keyof typeof localHandles],
+              )}
               onValueChange={(values) => {
                 const updated = {
                   top: values.includes("top"),

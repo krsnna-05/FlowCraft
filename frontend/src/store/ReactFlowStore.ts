@@ -25,7 +25,10 @@ type ReactFlowStore = {
   deleteEdge: (edgeId: string) => void;
 
   editNodeLabel?: (nodeId: string, newLabel: string) => void;
-  updateNodeHandles?: (nodeId: string, handles: { top: boolean; right: boolean; bottom: boolean; left: boolean }) => void;
+  updateNodeHandles?: (
+    nodeId: string,
+    handles: { top: boolean; right: boolean; bottom: boolean; left: boolean },
+  ) => void;
 
   showContextMenu: boolean;
   setShowContextMenu: (show: boolean) => void;
@@ -55,7 +58,10 @@ const useReactFlowStore = create<ReactFlowStore>(
             : node,
         ),
       })),
-    updateNodeHandles: (nodeId: string, handles: { top: boolean; right: boolean; bottom: boolean; left: boolean }) =>
+    updateNodeHandles: (
+      nodeId: string,
+      handles: { top: boolean; right: boolean; bottom: boolean; left: boolean },
+    ) =>
       set((state) => ({
         nodes: state.nodes.map((node) =>
           node.id === nodeId
