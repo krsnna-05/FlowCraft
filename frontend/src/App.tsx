@@ -29,6 +29,7 @@ import { ConnectionLineComponent } from "./components/FlowChart/UI/ConnectionLin
 import { DefaultEdge } from "./components/FlowChart/UI/DefaultEdge";
 import AppSidebar from "./components/FlowChart/Sidebar/AppSidebar";
 import ContextMenu from "./components/FlowChart/UI/ContextMenu";
+import TopBar from "./components/FlowChart/UI/TopBar";
 
 const NodeTypes = {
   defaultAppNode: DefaultNode,
@@ -39,7 +40,7 @@ const EdgeTypes = {
 };
 
 export default function App() {
-  const { nodes, edges, setNodes, setEdges } = useReactFlowStore();
+  const { nodes, edges, setNodes, setEdges, mobileView } = useReactFlowStore();
   const [contextMenu, setContextMenu] = useState<{
     x: number;
     y: number;
@@ -74,25 +75,46 @@ export default function App() {
   );
 
   return (
-    <div className="w-screen h-screen flex">
-      <AppSidebar />
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        onPaneContextMenu={onPaneContextMenu}
-        nodeTypes={NodeTypes}
-        edgeTypes={EdgeTypes}
-        connectionLineComponent={ConnectionLineComponent}
-        fitView
-        className="w-full h-full flex"
-      >
-        <Controls showFitView={true} showInteractive={false}></Controls>
-        <Background />
-      </ReactFlow>
-      <ContextMenu contextMenu={contextMenu} setContextMenu={setContextMenu} />
+    <div className="w-screen h-screen flex flex-col">
+      <TopBar />
+      <div className="flex flex-1 relative">
+        {/* Sidebar - hidden on mobile unless mobileView is "sidebar" */}
+        <div
+          className={`${mobileView === "sidebar" ? "block" : "hidden"} md:block w-full md:w-96`}
+        >
+          <AppSidebar />
+        </div>
+
+        {/* Canvas - hidden on mobile unless mobileView is "canvas" */}
+        <div
+          className={`${mobileView === "canvas" ? "block" : "hidden"} md:block flex-1`}
+        >
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onPaneContextMenu={onPaneContextMenu}
+            nodeTypes={NodeTypes}
+            edgeTypes={EdgeTypes}
+            connectionLineComponent={ConnectionLineComponent}
+            fitView
+            className="w-full h-full flex"
+          >
+            <Controls
+              showFitView={true}
+              showInteractive={false}
+              className="bottom-18! md:bottom-0"
+            ></Controls>
+            <Background />
+          </ReactFlow>
+          <ContextMenu
+            contextMenu={contextMenu}
+            setContextMenu={setContextMenu}
+          />
+        </div>
+      </div>
     </div>
   );
 }

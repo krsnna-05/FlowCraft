@@ -45,61 +45,73 @@ export const DefaultNode = memo(({ data, id, selected }: NodeProps) => {
           <BaseNodeContent>
             {String(data.label)}
 
-            {/* Top handles */}
-            {data.handles?.top && (
-              <>
-                <Handle type="target" position={Position.Top} id="top-target" />
-                <Handle type="source" position={Position.Top} id="top-source" />
-              </>
-            )}
+            {/* Top handles - always rendered, connectivity controlled */}
+            <Handle
+              type="target"
+              position={Position.Top}
+              id="top-target"
+              isConnectable={data.handles?.top ?? true}
+              style={{ visibility: data.handles?.top ? "visible" : "hidden" }}
+            />
+            <Handle
+              type="source"
+              position={Position.Top}
+              id="top-source"
+              isConnectable={data.handles?.top ?? true}
+              style={{ visibility: data.handles?.top ? "visible" : "hidden" }}
+            />
 
-            {/* Right handles */}
-            {data.handles?.right && (
-              <>
-                <Handle
-                  type="target"
-                  position={Position.Right}
-                  id="right-target"
-                />
-                <Handle
-                  type="source"
-                  position={Position.Right}
-                  id="right-source"
-                />
-              </>
-            )}
+            {/* Right handles - always rendered, connectivity controlled */}
+            <Handle
+              type="target"
+              position={Position.Right}
+              id="right-target"
+              isConnectable={data.handles?.right ?? true}
+              style={{ visibility: data.handles?.right ? "visible" : "hidden" }}
+            />
+            <Handle
+              type="source"
+              position={Position.Right}
+              id="right-source"
+              isConnectable={data.handles?.right ?? true}
+              style={{ visibility: data.handles?.right ? "visible" : "hidden" }}
+            />
 
-            {/* Bottom handles */}
-            {data.handles?.bottom && (
-              <>
-                <Handle
-                  type="target"
-                  position={Position.Bottom}
-                  id="bottom-target"
-                />
-                <Handle
-                  type="source"
-                  position={Position.Bottom}
-                  id="bottom-source"
-                />
-              </>
-            )}
+            {/* Bottom handles - always rendered, connectivity controlled */}
+            <Handle
+              type="target"
+              position={Position.Bottom}
+              id="bottom-target"
+              isConnectable={data.handles?.bottom ?? true}
+              style={{
+                visibility: data.handles?.bottom ? "visible" : "hidden",
+              }}
+            />
+            <Handle
+              type="source"
+              position={Position.Bottom}
+              id="bottom-source"
+              isConnectable={data.handles?.bottom ?? true}
+              style={{
+                visibility: data.handles?.bottom ? "visible" : "hidden",
+              }}
+            />
 
-            {/* Left handles */}
-            {data.handles?.left && (
-              <>
-                <Handle
-                  type="target"
-                  position={Position.Left}
-                  id="left-target"
-                />
-                <Handle
-                  type="source"
-                  position={Position.Left}
-                  id="left-source"
-                />
-              </>
-            )}
+            {/* Left handles - always rendered, connectivity controlled */}
+            <Handle
+              type="target"
+              position={Position.Left}
+              id="left-target"
+              isConnectable={data.handles?.left ?? true}
+              style={{ visibility: data.handles?.left ? "visible" : "hidden" }}
+            />
+            <Handle
+              type="source"
+              position={Position.Left}
+              id="left-source"
+              isConnectable={data.handles?.left ?? true}
+              style={{ visibility: data.handles?.left ? "visible" : "hidden" }}
+            />
           </BaseNodeContent>
         </BaseNode>
       </div>
@@ -112,7 +124,17 @@ export const DefaultNode = memo(({ data, id, selected }: NodeProps) => {
         onDelete={handleDelete}
         onEdit={handleEdit}
         handles={
-          data.handles || { top: true, right: true, bottom: true, left: true }
+          data.handles?.top !== undefined ||
+          data.handles?.right !== undefined ||
+          data.handles?.bottom !== undefined ||
+          data.handles?.left !== undefined
+            ? (data.handles as {
+                top: boolean;
+                right: boolean;
+                bottom: boolean;
+                left: boolean;
+              })
+            : { top: true, right: true, bottom: true, left: true }
         }
         onUpdateHandles={handleUpdateHandles}
       />

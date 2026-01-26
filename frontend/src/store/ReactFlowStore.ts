@@ -32,6 +32,9 @@ type ReactFlowStore = {
 
   showContextMenu: boolean;
   setShowContextMenu: (show: boolean) => void;
+
+  mobileView: "sidebar" | "canvas";
+  setMobileView: (view: "sidebar" | "canvas") => void;
 };
 
 const useReactFlowStore = create<ReactFlowStore>(
@@ -72,6 +75,9 @@ const useReactFlowStore = create<ReactFlowStore>(
 
     showContextMenu: false,
     setShowContextMenu: (show: boolean) => set({ showContextMenu: show }),
+
+    mobileView: "canvas",
+    setMobileView: (view: "sidebar" | "canvas") => set({ mobileView: view }),
   }),
 );
 
