@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import "./App.css";
 import {
   ReactFlow,
@@ -6,6 +6,7 @@ import {
   applyEdgeChanges,
   addEdge,
   Background,
+  Controls,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -20,15 +21,14 @@ import type {
 } from "@xyflow/react";
 
 //custom node imports
-import { DefaultNode } from "@/components/FlowChart/DefaultNode";
+import { DefaultNode } from "@/components/FlowChart/UI/DefaultNode";
 import type { DefautlAppNode } from "./store/ReactFlowStore";
 
 import useReactFlowStore from "./store/ReactFlowStore";
-import { ConnectionLineComponent } from "./components/FlowChart/ConnectionLine";
-import { DefaultEdge } from "./components/FlowChart/DefaultEdge";
-import Layout from "./pages/Create/Layout";
-import { FlowControls } from "./components/FlowChart/FlowControls";
-import { DragGhost } from "./store/DragStore";
+import { ConnectionLineComponent } from "./components/FlowChart/UI/ConnectionLine";
+import { DefaultEdge } from "./components/FlowChart/UI/DefaultEdge";
+import AppSidebar from "./components/FlowChart/Sidebar/AppSidebar";
+import ContextMenu from "./components/FlowChart/UI/ContextMenu";
 
 const NodeTypes = {
   defaultAppNode: DefaultNode,
@@ -40,6 +40,10 @@ const EdgeTypes = {
 
 export default function App() {
   const { nodes, edges, setNodes, setEdges } = useReactFlowStore();
+  const [contextMenu, setContextMenu] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   const onNodesChange: OnNodesChange<DefautlAppNode> = useCallback(
     (changes: NodeChange[]) =>
@@ -58,29 +62,37 @@ export default function App() {
     [edges, setEdges],
   );
 
+  const onPaneContextMenu = useCallback(
+    (event: React.MouseEvent | MouseEvent) => {
+      event.preventDefault();
+      setContextMenu({
+        x: event.clientX,
+        y: event.clientY,
+      });
+    },
+    [],
+  );
+
   return (
-    <div className="w-full h-full">
-      {/* DragGhost rendered here so it survives sidebar unmount */}
-      <DragGhost />
+    <div className="w-screen h-screen flex">
+      <AppSidebar />
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onPaneContextMenu={onPaneContextMenu}
         nodeTypes={NodeTypes}
         edgeTypes={EdgeTypes}
         connectionLineComponent={ConnectionLineComponent}
         fitView
-        className="w-full h-full"
+        className="w-full h-full flex"
       >
-        <Layout>
-          <div className="relative w-full h-full">
-            <FlowControls />
-            <Background />
-          </div>
-        </Layout>
+        <Controls showFitView={true} showInteractive={false}></Controls>
+        <Background />
       </ReactFlow>
+      <ContextMenu contextMenu={contextMenu} setContextMenu={setContextMenu} />
     </div>
   );
 }

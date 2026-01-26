@@ -19,6 +19,9 @@ type ReactFlowStore = {
   deleteEdge: (edgeId: string) => void;
 
   editNodeLabel?: (nodeId: string, newLabel: string) => void;
+
+  showContextMenu: boolean;
+  setShowContextMenu: (show: boolean) => void;
 };
 
 const useReactFlowStore = create<ReactFlowStore>(
@@ -45,6 +48,9 @@ const useReactFlowStore = create<ReactFlowStore>(
             : node,
         ),
       })),
+
+    showContextMenu: false,
+    setShowContextMenu: (show: boolean) => set({ showContextMenu: show }),
   }),
 );
 
