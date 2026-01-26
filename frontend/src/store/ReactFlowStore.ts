@@ -6,6 +6,12 @@ import type { Node, Edge } from "@xyflow/react";
 export type DefautlAppNode = Node<{
   handleOrientation: "horizontal" | "vertical";
   label: string;
+  handles?: {
+    top: boolean;
+    right: boolean;
+    bottom: boolean;
+    left: boolean;
+  };
 }>;
 
 type ReactFlowStore = {
@@ -19,6 +25,7 @@ type ReactFlowStore = {
   deleteEdge: (edgeId: string) => void;
 
   editNodeLabel?: (nodeId: string, newLabel: string) => void;
+  updateNodeHandles?: (nodeId: string, handles: { top: boolean; right: boolean; bottom: boolean; left: boolean }) => void;
 
   showContextMenu: boolean;
   setShowContextMenu: (show: boolean) => void;
@@ -45,6 +52,14 @@ const useReactFlowStore = create<ReactFlowStore>(
         nodes: state.nodes.map((node) =>
           node.id === nodeId
             ? { ...node, data: { ...node.data, label: newLabel } }
+            : node,
+        ),
+      })),
+    updateNodeHandles: (nodeId: string, handles: { top: boolean; right: boolean; bottom: boolean; left: boolean }) =>
+      set((state) => ({
+        nodes: state.nodes.map((node) =>
+          node.id === nodeId
+            ? { ...node, data: { ...node.data, handles } }
             : node,
         ),
       })),

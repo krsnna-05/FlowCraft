@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { motion } from "motion/react";
 import { createPortal } from "react-dom";
-import { ArrowDownIcon, ArrowRightIcon } from "lucide-react";
+
 import useReactFlowStore from "@/store/ReactFlowStore";
+import { MoveHorizontalIcon, MoveVerticalIcon } from "lucide-react";
 
 interface ContextMenuProps {
   contextMenu: { x: number; y: number } | null;
@@ -38,6 +39,12 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         data: {
           handleOrientation: "horizontal",
           label: "Horizontal Node",
+          handles: {
+            top: false,
+            right: true,
+            bottom: false,
+            left: true,
+          },
         },
       });
       setContextMenu(null);
@@ -53,6 +60,12 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         data: {
           handleOrientation: "vertical",
           label: "Vertical Node",
+          handles: {
+            top: true,
+            right: false,
+            bottom: true,
+            left: false,
+          },
         },
       });
       setContextMenu(null);
@@ -114,13 +127,13 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
             </div>
 
             <MenuItem
-              icon={ArrowDownIcon}
+              icon={MoveVerticalIcon}
               label="Vertical Node"
               onClick={onAddVerticalNode}
               shortcut="V"
             />
             <MenuItem
-              icon={ArrowRightIcon}
+              icon={MoveHorizontalIcon}
               label="Horizontal Node"
               onClick={onAddHorizontalNode}
               shortcut="H"

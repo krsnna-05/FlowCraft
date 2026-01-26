@@ -12,6 +12,8 @@ import {
 } from "../../ui/dialog";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Toggle } from "@radix-ui/react-toggle";
 
 interface NodeContextMenuProps {
   contextMenu: { x: number; y: number } | null;
@@ -19,7 +21,11 @@ interface NodeContextMenuProps {
   nodeId: string;
   onDelete: (nodeId: string) => void;
   onEdit?: (nodeId: string, newLabel: string) => void;
+  handles?: { top: boolean; right: boolean; bottom: boolean; left: boolean };
+  onUpdateHandles?: (handles: { top: boolean; right: boolean; bottom: boolean; left: boolean }) => void;
 }
+
+const Divider = () => <div className="my-1 h-px w-full bg-border" />;
 
 const NodeContextMenu: React.FC<NodeContextMenuProps> = ({
   contextMenu,
@@ -27,6 +33,8 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({
   nodeId,
   onDelete,
   onEdit,
+  handles = { top: true, right: true, bottom: true, left: true },
+  onUpdateHandles,
 }) => {
   const handleDelete = () => {
     console.log("Deleting node:", nodeId);
@@ -36,6 +44,7 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({
 
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [editLabel, setEditLabel] = useState("");
+  const [localHandles, setLocalHandles] = useState(handles);
 
   const handleEdit = () => {
     setShowEditDialog(true);
@@ -142,6 +151,29 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({
               <TrashIcon className="inline mr-2" size={16} />
               <span>Delete Node</span>
             </button>
+            <Divider />
+            <span className=" text-sm text-muted-foreground">Handles</span>
+            <ToggleGroup
+              type="multiple"
+              className=""
+              variant={"outline"}
+              value={Object.keys(localHandles).filter((key) => localHandles[key as keyof typeof localHandles])}
+              onValueChange={(values) => {
+                const updated = {
+                  top: values.includes("top"),
+                  right: values.includes("right"),
+                  bottom: values.includes("bottom"),
+                  left: values.includes("left"),
+                };
+                setLocalHandles(updated);
+                onUpdateHandles?.(updated);
+              }}
+            >
+              <ToggleGroupItem value="top">T</ToggleGroupItem>
+              <ToggleGroupItem value="right">R</ToggleGroupItem>
+              <ToggleGroupItem value="bottom">B</ToggleGroupItem>
+              <ToggleGroupItem value="left">L</ToggleGroupItem>
+            </ToggleGroup>
           </motion.div>,
           document.body,
         )}

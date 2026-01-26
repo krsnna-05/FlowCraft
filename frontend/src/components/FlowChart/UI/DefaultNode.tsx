@@ -12,7 +12,7 @@ export const DefaultNode = memo(({ data, id, selected }: NodeProps) => {
     x: number;
     y: number;
   } | null>(null);
-  const { deleteNode, editNodeLabel } = useReactFlowStore();
+  const { deleteNode, editNodeLabel, updateNodeHandles } = useReactFlowStore();
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -27,6 +27,10 @@ export const DefaultNode = memo(({ data, id, selected }: NodeProps) => {
     editNodeLabel?.(nodeId, newLabel);
   };
 
+  const handleUpdateHandles = (handles: { top: boolean; right: boolean; bottom: boolean; left: boolean }) => {
+    updateNodeHandles?.(id, handles);
+  };
+
   return (
     <>
       <div onContextMenu={handleContextMenu}>
@@ -36,50 +40,35 @@ export const DefaultNode = memo(({ data, id, selected }: NodeProps) => {
           <BaseNodeContent>
             {String(data.label)}
 
-            {data.handleOrientation === "horizontal" ? (
+            {/* Top handles */}
+            {data.handles?.top && (
               <>
-                {/* Left side - both target and source */}
-                <Handle
-                  type="target"
-                  position={Position.Left}
-                  id="left-target"
-                  className=" w-0 h-0"
-                />
-                <Handle
-                  type="source"
-                  position={Position.Left}
-                  id="left-source"
-                />
-
-                {/* Right side - both target and source */}
-                <Handle
-                  type="target"
-                  position={Position.Right}
-                  id="right-target"
-                />
-                <Handle
-                  type="source"
-                  position={Position.Right}
-                  id="right-source"
-                />
-              </>
-            ) : (
-              <>
-                {/* Top - both target and source */}
                 <Handle type="target" position={Position.Top} id="top-target" />
                 <Handle type="source" position={Position.Top} id="top-source" />
+              </>
+            )}
 
-                {/* Bottom - both target and source */}
-                <Handle
-                  type="target"
-                  position={Position.Bottom}
-                  id="bottom-target"
-                />
-                <Handle
-                  type="source"
-                  position={Position.Bottom}
-                  id="bottom-source"
-                />
+            {/* Right handles */}
+            {data.handles?.right && (
+              <>
+                <Handle type="target" position={Position.Right} id="right-target" />
+                <Handle type="source" position={Position.Right} id="right-source" />
+              </>
+            )}
+
+            {/* Bottom handles */}
+            {data.handles?.bottom && (
+              <>
+                <Handle type="target" position={Position.Bottom} id="bottom-target" />
+                <Handle type="source" position={Position.Bottom} id="bottom-source" />
+              </>
+            )}
+
+            {/* Left handles */}
+            {data.handles?.left && (
+              <>
+                <Handle type="target" position={Position.Left} id="left-target" />
+                <Handle type="source" position={Position.Left} id="left-source" />
               </>
             )}
           </BaseNodeContent>
@@ -93,6 +82,8 @@ export const DefaultNode = memo(({ data, id, selected }: NodeProps) => {
         nodeId={id}
         onDelete={handleDelete}
         onEdit={handleEdit}
+        handles={data.handles || { top: true, right: true, bottom: true, left: true }}
+        onUpdateHandles={handleUpdateHandles}
       />
     </>
   );
