@@ -1,14 +1,18 @@
-import { SidebarGroup, SidebarGroupLabel } from "@/components/ui/sidebar";
+import {
+  SidebarGroup,
+  SidebarGroupLabel,
+  useSidebar,
+} from "@/components/ui/sidebar";
 import { BaseNode, BaseNodeContent } from "@/components/base-node";
 import { MoveLeft } from "lucide-react";
 import useSidebarStore from "@/store/SidebarStore";
-import { useDraggable } from "@neodrag/react";
 
 // type imports
 import { useReactFlow, type XYPosition } from "@xyflow/react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect } from "react";
 
 import useReactFlowStore from "@/store/ReactFlowStore";
+import { useDragStore } from "@/store/DragStore";
 
 let id = 0;
 const getId = () => `node_${id++}`;
@@ -17,13 +21,8 @@ const NodeDropBox = () => {
   const { setCurrMenu } = useSidebarStore();
   const { screenToFlowPosition } = useReactFlow();
   const { addNode } = useReactFlowStore();
-  const horizontalRef = useRef<HTMLDivElement>(null);
-  const verticalRef = useRef<HTMLDivElement>(null);
-  const [horizontalPos, setHorizontalPos] = useState<XYPosition>({
-    x: 0,
-    y: 0,
-  });
-  const [verticalPos, setVerticalPos] = useState<XYPosition>({ x: 0, y: 0 });
+  const { isMobile, setOpenMobile } = useSidebar();
+  const { draggingNode, setDraggingNode, setGhostPos, reset } = useDragStore();
 
   const handleNodeDrop = useCallback(
     (
@@ -60,77 +59,89 @@ const NodeDropBox = () => {
     [screenToFlowPosition, addNode],
   );
 
-  // Setup draggable for Horizontal Node
-  useDraggable(horizontalRef as React.RefObject<HTMLElement>, {
-    position: horizontalPos,
-    onDrag: ({ offsetX, offsetY }) => {
-      setHorizontalPos({
-        x: offsetX,
-        y: offsetY,
-      });
-    },
-    onDragEnd: ({ event }) => {
-      setHorizontalPos({ x: 0, y: 0 });
-      handleNodeDrop(
-        "defaultAppNode",
-        { x: event.clientX, y: event.clientY },
-        "horizontal",
-      );
-    },
-  });
+  // Handle pointer move and up events globally
+  useEffect(() => {
+    if (!draggingNode) return;
 
-  // Setup draggable for Vertical Node
-  useDraggable(verticalRef as React.RefObject<HTMLElement>, {
-    position: verticalPos,
-    onDrag: ({ offsetX, offsetY }) => {
-      setVerticalPos({
-        x: offsetX,
-        y: offsetY,
-      });
-    },
-    onDragEnd: ({ event }) => {
-      setVerticalPos({ x: 0, y: 0 });
+    const handlePointerMove = (e: PointerEvent) => {
+      setGhostPos({ x: e.clientX, y: e.clientY });
+    };
+
+    const handlePointerUp = (e: PointerEvent) => {
+      const nodeOrientation = draggingNode;
+      reset();
       handleNodeDrop(
         "defaultAppNode",
-        { x: event.clientX, y: event.clientY },
-        "vertical",
+        { x: e.clientX, y: e.clientY },
+        nodeOrientation,
       );
-    },
-  });
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+    };
+  }, [draggingNode, setGhostPos, reset, handleNodeDrop]);
+
+  const handlePointerDown = (
+    e: React.PointerEvent,
+    nodeType: "horizontal" | "vertical",
+  ) => {
+    e.preventDefault();
+    setDraggingNode(nodeType);
+    setGhostPos({ x: e.clientX, y: e.clientY });
+
+    // Hide mobile sidebar overlay when dragging starts
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
 
   return (
-    <SidebarGroup className=" flex flex-col gap-4">
-      <SidebarGroupLabel className=" flex justify-between">
-        <span>Add Node (drag)</span>
+    <>
+      {/* Static Previews in Sidebar */}
+      <SidebarGroup className=" flex flex-col gap-4">
+        <SidebarGroupLabel className=" flex justify-between">
+          <span>Add Node (drag)</span>
 
-        <MoveLeft
-          onClick={() => setCurrMenu("menu")}
-          className=" hover:scale-105"
-        />
-      </SidebarGroupLabel>
+          <MoveLeft
+            onClick={() => setCurrMenu("menu")}
+            className=" hover:scale-105"
+          />
+        </SidebarGroupLabel>
 
-      {/* Horizontal Node Preview */}
-      <div className="relative w-full dndnode" ref={horizontalRef}>
-        <BaseNode className="w-full">
-          <BaseNodeContent>
-            <div className="flex items-center justify-center gap-4 w-full">
-              <span className="text-sm font-medium">Horizontal Node</span>
-            </div>
-          </BaseNodeContent>
-        </BaseNode>
-      </div>
+        {/* Horizontal Node Preview - Static */}
+        <div
+          className="dndnode cursor-grab active:cursor-grabbing touch-none"
+          onPointerDown={(e) => handlePointerDown(e, "horizontal")}
+        >
+          <BaseNode className="w-full">
+            <BaseNodeContent>
+              <div className="flex items-center justify-center gap-4 w-full">
+                <span className="text-sm font-medium">Horizontal Node</span>
+              </div>
+            </BaseNodeContent>
+          </BaseNode>
+        </div>
 
-      {/* Vertical Node Preview */}
-      <div className="relative w-full dndnode" ref={verticalRef}>
-        <BaseNode className="w-full">
-          <BaseNodeContent>
-            <div className="flex flex-col items-center justify-center gap-2 w-full">
-              <span className="text-sm font-medium">Vertical Node</span>
-            </div>
-          </BaseNodeContent>
-        </BaseNode>
-      </div>
-    </SidebarGroup>
+        {/* Vertical Node Preview - Static */}
+        <div
+          className="dndnode cursor-grab active:cursor-grabbing touch-none"
+          onPointerDown={(e) => handlePointerDown(e, "vertical")}
+        >
+          <BaseNode className="w-full">
+            <BaseNodeContent>
+              <div className="flex flex-col items-center justify-center gap-2 w-full">
+                <span className="text-sm font-medium">Vertical Node</span>
+              </div>
+            </BaseNodeContent>
+          </BaseNode>
+        </div>
+      </SidebarGroup>
+    </>
   );
 };
 

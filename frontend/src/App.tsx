@@ -28,6 +28,7 @@ import { ConnectionLineComponent } from "./components/FlowChart/ConnectionLine";
 import { DefaultEdge } from "./components/FlowChart/DefaultEdge";
 import Layout from "./pages/Create/Layout";
 import { FlowControls } from "./components/FlowChart/FlowControls";
+import { DragGhost } from "./store/DragStore";
 
 const NodeTypes = {
   defaultAppNode: DefaultNode,
@@ -59,6 +60,8 @@ export default function App() {
 
   return (
     <div className="w-full h-full">
+      {/* DragGhost rendered here so it survives sidebar unmount */}
+      <DragGhost />
       <ReactFlow
         nodes={nodes}
         edges={edges}
