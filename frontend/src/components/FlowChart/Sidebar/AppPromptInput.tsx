@@ -33,8 +33,6 @@ const AppPromptInput = ({
         parts: [{ type: "text", text: message.text }],
       } as UIMessage),
     );
-
-    setText("");
   };
   return (
     <PromptInput onSubmit={onSubmit}>

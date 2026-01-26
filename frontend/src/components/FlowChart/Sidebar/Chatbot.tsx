@@ -1,17 +1,18 @@
-import React from "react";
 import AppPromptInput from "./AppPromptInput";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import AppConversation from "./AppConversation";
 
 const Chatbot = () => {
-  const { status, sendMessage, setMessages } = useChat({
+  const { status, sendMessage, setMessages, messages } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/ai/chat",
     }),
   });
 
   return (
-    <div>
+    <div className="flex flex-col flex-1">
+      <AppConversation messages={messages} />
       <AppPromptInput
         status={status}
         sendMessage={sendMessage}

@@ -6,7 +6,7 @@ const TopBar = () => {
   const { mobileView, setMobileView } = useReactFlowStore();
 
   return (
-    <div className="w-full" id="top-bar">
+    <div className="w-full fixed z-500000 bg-background" id="top-bar">
       {/* Header */}
       <div className="flex items-center justify-between gap-2 border-b border-border p-3">
         <h1 className="text-2xl font-bold flex justify-center items-center gap-2">

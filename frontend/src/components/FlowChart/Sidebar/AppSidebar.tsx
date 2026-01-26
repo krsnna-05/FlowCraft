@@ -2,7 +2,7 @@ import Chatbot from "./Chatbot";
 
 const AppSidebar = () => {
   return (
-    <div className="h-full w-full border-r border-border flex flex-col p-4">
+    <div className=" mx-auto p-6 relative border-r border-border pt-16 flex h-full">
       <Chatbot />
     </div>
   );
