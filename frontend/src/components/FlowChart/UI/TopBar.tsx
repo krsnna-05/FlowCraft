@@ -1,4 +1,4 @@
-import { Workflow, PanelLeft, GitBranch } from "lucide-react";
+import { Workflow, PanelLeft, GitBranch, BotIcon } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import useReactFlowStore from "@/store/ReactFlowStore";
 
@@ -6,7 +6,7 @@ const TopBar = () => {
   const { mobileView, setMobileView } = useReactFlowStore();
 
   return (
-    <div className="w-full fixed z-500000 bg-background" id="top-bar">
+    <div className="w-full z-500000 bg-background" id="top-bar">
       {/* Header */}
       <div className="flex items-center justify-between gap-2 border-b border-border p-3">
         <h1 className="text-2xl font-bold flex justify-center items-center gap-2">
@@ -25,13 +25,13 @@ const TopBar = () => {
             variant="outline"
             spacing={0}
           >
-            <ToggleGroupItem value="sidebar" className="gap-2">
-              <PanelLeft className="w-4 h-4" />
-              <span className="text-sm">Sidebar</span>
+            <ToggleGroupItem value="sidebar" className="gap-1">
+              <BotIcon className="w-3 h-3" />
+              <span className="text-xs">AI Builder</span>
             </ToggleGroupItem>
-            <ToggleGroupItem value="canvas" className="gap-2">
-              <GitBranch className="w-4 h-4" />
-              <span className="text-sm">Canvas</span>
+            <ToggleGroupItem value="canvas" className="gap-1">
+              <GitBranch className="w-3 h-3" />
+              <span className="text-xs">Canvas</span>
             </ToggleGroupItem>
           </ToggleGroup>
         </div>

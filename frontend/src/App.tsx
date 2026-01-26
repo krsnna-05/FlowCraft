@@ -77,7 +77,7 @@ export default function App() {
   return (
     <div className="w-screen h-screen flex flex-col jetbrains-mono">
       <TopBar />
-      <div className="flex flex-1 relative overflow-hidden pt-16">
+      <div className="flex flex-1 relative overflow-hidden ">
         {/* Sidebar - hidden on mobile unless mobileView is "sidebar" */}
         <div
           className={`${mobileView === "sidebar" ? "block" : "hidden"} md:block w-full md:w-96 h-full overflow-hidden`}
