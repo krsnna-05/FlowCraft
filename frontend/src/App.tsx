@@ -59,25 +59,25 @@ export default function App() {
 
   return (
     <div className="w-full h-full">
-      <Layout>
-        <div className="relative w-full h-full">
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            nodeTypes={NodeTypes}
-            edgeTypes={EdgeTypes}
-            connectionLineComponent={ConnectionLineComponent}
-            fitView
-            className="w-full h-full"
-          >
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        nodeTypes={NodeTypes}
+        edgeTypes={EdgeTypes}
+        connectionLineComponent={ConnectionLineComponent}
+        fitView
+        className="w-full h-full"
+      >
+        <Layout>
+          <div className="relative w-full h-full">
             <FlowControls />
             <Background />
-          </ReactFlow>
-        </div>
-      </Layout>
+          </div>
+        </Layout>
+      </ReactFlow>
     </div>
   );
 }
