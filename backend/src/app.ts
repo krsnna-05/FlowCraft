@@ -4,6 +4,7 @@ import cors from "cors";
 
 // type imports
 import type { Request, Response } from "express";
+import aiRouter from "./routes/AIroute.js";
 
 // configures dotenv to work in your application
 dotenv.config();
@@ -11,6 +12,9 @@ const app = express();
 
 // Enable CORS for all routes
 app.use(cors());
+app.use(express.json());
+
+app.use("/api/ai", aiRouter);
 
 const PORT = process.env.PORT;
 

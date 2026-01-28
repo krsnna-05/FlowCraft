@@ -6,7 +6,7 @@ import AppConversation from "./AppConversation";
 const Chatbot = () => {
   const { status, sendMessage, setMessages, messages } = useChat({
     transport: new DefaultChatTransport({
-      api: "/api/ai/chat",
+      api: "http://localhost:3000/api/ai/chat",
     }),
   });
 
