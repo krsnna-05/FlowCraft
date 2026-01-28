@@ -15,16 +15,15 @@ type AppPromptInputProps = {
   status: ChatStatus;
   sendMessage: (message: PromptInputMessage) => void;
   setMessages: (updater: (prev: UIMessage[]) => UIMessage[]) => void;
+  stop: () => void;
 };
 
-const AppPromptInput = ({
-  status,
-  setMessages,
-  sendMessage,
-}: AppPromptInputProps) => {
+const AppPromptInput = ({ status, sendMessage }: AppPromptInputProps) => {
   const [text, setText] = useState("");
 
   const onSubmit = (message: PromptInputMessage) => {
+    if (status === "streaming") stop();
+
     sendMessage(message);
     setText("");
   };

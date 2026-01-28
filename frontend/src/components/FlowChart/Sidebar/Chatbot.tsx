@@ -4,7 +4,7 @@ import { DefaultChatTransport } from "ai";
 import AppConversation from "./AppConversation";
 
 const Chatbot = () => {
-  const { status, sendMessage, setMessages, messages } = useChat({
+  const { status, sendMessage, setMessages, messages, stop } = useChat({
     transport: new DefaultChatTransport({
       api: "http://localhost:3000/api/ai/chat",
     }),
@@ -17,6 +17,7 @@ const Chatbot = () => {
         status={status}
         sendMessage={sendMessage}
         setMessages={setMessages}
+        stop={stop}
       />
     </div>
   );
