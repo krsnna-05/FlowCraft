@@ -11,6 +11,15 @@ const ChatController = async (req: Request, res: Response) => {
   const aiService = new AIService(messages);
 
   const intentObj = await aiService.classifyIntent();
+
+  if (intentObj.intent === "CHAT") {
+    await aiService.streamResponseQuery(messages, res);
+  }
+
+  if (intentObj.intent === "EDIT") {
+    const flowchart = await aiService.generateEdits();
+    console.log("Generated Flowchart:", flowchart);
+  }
 };
 
 export default ChatController;
