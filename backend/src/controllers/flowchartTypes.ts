@@ -42,11 +42,10 @@ const edgeSchema = z
   })
   .describe("Edge configuration");
 
-const flowchartSchema = z
-  .object({
-    nodes: z.array(nodeSchema).describe("Array of nodes"),
-    edges: z.array(edgeSchema).describe("Array of edges"),
-  })
-  .describe("Complete flowchart structure");
+const flowchartOperationSchema = z.object({
+  operation: z.enum(["ADD_NODE", "ADD_EDGE"]),
+  nodeData: nodeSchema.optional(),
+  edgeData: edgeSchema.optional(),
+});
 
-export { nodeSchema, edgeSchema, flowchartSchema };
+export { nodeSchema, edgeSchema, flowchartOperationSchema };

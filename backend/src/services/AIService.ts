@@ -9,7 +9,7 @@ import { ollama } from "ai-sdk-ollama";
 import { z } from "zod";
 import systemPrompts from "../systemPrompts/system.json" with { type: "json" };
 import { Response } from "express";
-import { flowchartSchema } from "../controllers/flowchartTypes.js";
+import { flowchartOperationSchema } from "../controllers/flowchartTypes.js";
 
 class AIService {
   public messages: UIMessage[];
@@ -38,22 +38,29 @@ class AIService {
       model: ollama("ministral-3:3b"),
       prompt: await convertToModelMessages(messages),
       system: systemPrompts.chat,
+      onChunk: (chunk) => {
+        console.log(chunk);
+      },
     });
-
     result.pipeUIMessageStreamToResponse(res);
   }
 
-  public async generateEdits(): Promise<z.infer<typeof flowchartSchema>> {
-    const flowchart = await generateText({
+  public async generateEdits(): Promise<
+    z.infer<typeof flowchartOperationSchema>
+  > {
+    const flowchart = streamText({
       model: ollama("ministral-3:3b"),
       prompt: await convertToModelMessages(this.messages),
       system: systemPrompts.edit,
       output: Output.object({
-        schema: flowchartSchema,
+        schema: z.array(flowchartOperationSchema),
       }),
+      onChunk: (chunk) => {
+        console.log(chunk);
+      },
     });
 
-    return JSON.parse(flowchart.text);
+    return JSON.parse(await flowchart.text);
   }
 
   private async generateEditPrompt() {}
