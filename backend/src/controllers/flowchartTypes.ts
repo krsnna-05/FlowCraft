@@ -43,9 +43,13 @@ const edgeSchema = z
   .describe("Edge configuration");
 
 const flowchartOperationSchema = z.object({
-  operation: z.enum(["ADD_NODE", "ADD_EDGE"]),
-  nodeData: nodeSchema.optional(),
-  edgeData: edgeSchema.optional(),
+  operation: z.enum(["ADD_NODE", "ADD_EDGE"]).describe("Type of operation"),
+  nodeData: nodeSchema
+    .optional()
+    .describe("Data for node addition only to show when operation is ADD_NODE"),
+  edgeData: edgeSchema
+    .optional()
+    .describe("Data for edge addition only to show when operation is ADD_EDGE"),
 });
 
 export { nodeSchema, edgeSchema, flowchartOperationSchema };

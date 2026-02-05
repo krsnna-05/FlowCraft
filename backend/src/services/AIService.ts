@@ -4,6 +4,7 @@ import {
   streamText,
   UIMessage,
   Output,
+  createUIMessageStream,
 } from "ai";
 import { ollama } from "ai-sdk-ollama";
 import { z } from "zod";
