@@ -1,7 +1,4 @@
-import {
-  useConnection,
-  type ConnectionLineComponentProps,
-} from "@xyflow/react";
+import { type ConnectionLineComponentProps } from "@xyflow/react";
 
 export const ConnectionLineComponent = ({
   fromX,

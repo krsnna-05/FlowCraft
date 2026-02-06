@@ -120,10 +120,12 @@ const AppConversation = ({
                 message.role === "assistant" &&
                 index === messages.length - 1 ? (
                   <LoadingAnimation />
-                ) : message.content?.includes("{done}") ? (
-                  <SuccessMessage />
                 ) : (
                   message.parts.map((part, i) => {
+                    if (part.type === "text" && part.text === "{done}") {
+                      return <SuccessMessage key={`${message.id}-${i}`} />;
+                    }
+
                     switch (part.type) {
                       case "text":
                         return (
