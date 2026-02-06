@@ -15,6 +15,8 @@ import { useState } from "react";
 
 type AppPromptInputProps = {
   status: ChatStatus;
+  userQuery: "ask" | "agent";
+  setUserQuery: (value: "ask" | "agent") => void;
   sendMessage: (
     message: PromptInputMessage,
     options: ChatRequestOptions,
@@ -23,9 +25,13 @@ type AppPromptInputProps = {
   stop: () => void;
 };
 
-const AppPromptInput = ({ status, sendMessage }: AppPromptInputProps) => {
+const AppPromptInput = ({
+  status,
+  sendMessage,
+  userQuery,
+  setUserQuery,
+}: AppPromptInputProps) => {
   const [text, setText] = useState("");
-  const [userQuery, setUserQuery] = useState<"ask" | "agent">("ask");
 
   const onSubmit = (message: PromptInputMessage) => {
     if (status === "streaming") stop();
