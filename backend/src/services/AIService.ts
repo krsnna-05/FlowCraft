@@ -21,21 +21,6 @@ class AIService {
     this.res = res;
   }
 
-  public async classifyIntent(): Promise<{ intent: "CHAT" | "EDIT" }> {
-    const model = await generateText({
-      model: ollama("ministral-3:3b"),
-      prompt: await convertToModelMessages(this.messages),
-      system: systemPrompts.intent,
-      output: Output.object({
-        schema: z.object({
-          intent: z.enum(["CHAT", "EDIT"]),
-        }),
-      }),
-    });
-
-    return JSON.parse(model.text);
-  }
-
   public async streamResponseQuery() {
     const result = streamText({
       model: ollama("ministral-3:3b"),
@@ -53,9 +38,6 @@ class AIService {
       model: ollama("ministral-3:3b"),
       prompt: await convertToModelMessages(this.messages),
       system: systemPrompts.edit,
-      output: Output.object({
-        schema: z.array(flowchartOperationSchema),
-      }),
       onChunk: (chunk) => {
         console.log(chunk);
       },

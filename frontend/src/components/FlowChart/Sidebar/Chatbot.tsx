@@ -2,7 +2,7 @@ import AppPromptInput from "./AppPromptInput";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import AppConversation from "./AppConversation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Chatbot = () => {
   const { status, sendMessage, setMessages, messages, stop } = useChat({
@@ -12,6 +12,22 @@ const Chatbot = () => {
   });
 
   const [userQuery, setUserQuery] = useState<"ask" | "agent">("ask");
+
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    if (!lastMessage) return;
+
+    if (lastMessage?.role === "user") return;
+
+    for (const part of lastMessage.parts ?? []) {
+      console.log("PART TYPE:", part.type);
+
+      if (part.type === "text") {
+        console.log("STATE:", part.state);
+        console.log("TEXT SO FAR:\n", part.text);
+      }
+    }
+  }, [messages]);
 
   return (
     <div className="flex flex-col flex-1 overflow-hidden">
