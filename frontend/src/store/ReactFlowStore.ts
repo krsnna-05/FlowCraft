@@ -21,6 +21,7 @@ type ReactFlowStore = {
   setEdges: (edges: Edge[]) => void;
 
   addNode: (node: DefautlAppNode) => void;
+  addEdge: (edge: Edge) => void;
   deleteNode: (nodeId: string) => void;
   deleteEdge: (edgeId: string) => void;
 
@@ -45,6 +46,8 @@ const useReactFlowStore = create<ReactFlowStore>(
     setEdges: (edges: Edge[]) => set({ edges }),
     addNode: (node: DefautlAppNode) =>
       set((state) => ({ nodes: [...state.nodes, node] })),
+    addEdge: (edge: Edge) =>
+      set((state) => ({ edges: [...state.edges, edge] })),
     deleteNode: (nodeId: string) =>
       set((state) => ({
         nodes: state.nodes.filter((node) => node.id !== nodeId),
