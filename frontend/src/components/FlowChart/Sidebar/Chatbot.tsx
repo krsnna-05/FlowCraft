@@ -55,7 +55,7 @@ const Chatbot = () => {
             const { id, type, label, pos } = operation.nodeData;
             addNode({
               id,
-              type,
+              type: "defaultAppNode",
               position: pos,
               data: {
                 label,
@@ -67,6 +67,7 @@ const Chatbot = () => {
             const { id, sourceId, targetId } = operation.edgeData;
             addEdge({
               id,
+              type: "defaultAppEdge",
               source: sourceId,
               target: targetId,
             });
