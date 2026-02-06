@@ -1,22 +1,24 @@
 import type { Request, Response } from "express";
 import AIService from "../services/AIService.js";
+import { UIMessage } from "ai";
 
 const ChatController = async (req: Request, res: Response) => {
-  const { messages } = req.body;
+  const {
+    messages,
+    query,
+  }: {
+    messages: UIMessage[];
+    query: "ask" | "agent";
+  } = req.body;
 
-  const aiService = new AIService(messages);
+  const aiService = new AIService(messages, res);
 
-  const intentObj = await aiService.classifyIntent();
-
-  console.log("Classified Intent:", intentObj.intent);
-
-  if (intentObj.intent === "CHAT") {
-    await aiService.streamResponseQuery(messages, res);
+  if (query === "ask") {
+    aiService.streamResponseQuery();
   }
 
-  if (intentObj.intent === "EDIT") {
-    const flowchart = await aiService.generateEdits();
-    console.log("Generated Flowchart:", flowchart);
+  if (query === "agent") {
+    aiService.streamEdits();
   }
 };
 

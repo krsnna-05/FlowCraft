@@ -14,9 +14,11 @@ import { flowchartOperationSchema } from "../controllers/flowchartTypes.js";
 
 class AIService {
   public messages: UIMessage[];
+  public res: Response;
 
-  constructor(messages: UIMessage[]) {
+  constructor(messages: UIMessage[], res: Response) {
     this.messages = messages;
+    this.res = res;
   }
 
   public async classifyIntent(): Promise<{ intent: "CHAT" | "EDIT" }> {
@@ -34,21 +36,19 @@ class AIService {
     return JSON.parse(model.text);
   }
 
-  public async streamResponseQuery(messages: UIMessage[], res: Response) {
+  public async streamResponseQuery() {
     const result = streamText({
       model: ollama("ministral-3:3b"),
-      prompt: await convertToModelMessages(messages),
+      prompt: await convertToModelMessages(this.messages),
       system: systemPrompts.chat,
       onChunk: (chunk) => {
         console.log(chunk);
       },
     });
-    result.pipeUIMessageStreamToResponse(res);
+    result.pipeUIMessageStreamToResponse(this.res);
   }
 
-  public async generateEdits(): Promise<
-    z.infer<typeof flowchartOperationSchema>
-  > {
+  public async streamEdits() {
     const flowchart = streamText({
       model: ollama("ministral-3:3b"),
       prompt: await convertToModelMessages(this.messages),
@@ -61,7 +61,7 @@ class AIService {
       },
     });
 
-    return JSON.parse(await flowchart.text);
+    flowchart.pipeUIMessageStreamToResponse(this.res);
   }
 
   private async generateEditPrompt() {}
