@@ -42,7 +42,6 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({
   onUpdateHandles,
 }) => {
   const handleDelete = () => {
-    console.log("Deleting node:", nodeId);
     onDelete(nodeId);
     setContextMenu(null);
   };
@@ -64,8 +63,6 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({
   };
 
   useEffect(() => {
-    console.log("Context menu state:", contextMenu);
-
     const handleClickOutside = (e: React.MouseEvent | MouseEvent) => {
       const target = e.target as HTMLElement;
       // Don't close if clicking on dialog or dialog trigger
@@ -75,7 +72,7 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({
       ) {
         return;
       }
-      console.log("Closing context menu");
+
       setContextMenu(null);
       setShowEditDialog(false);
     };

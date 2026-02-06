@@ -26,9 +26,6 @@ class AIService {
       model: ollama("ministral-3:3b"),
       prompt: await convertToModelMessages(this.messages),
       system: systemPrompts.chat,
-      onChunk: (chunk) => {
-        console.log(chunk);
-      },
     });
     result.pipeUIMessageStreamToResponse(this.res);
   }
@@ -38,9 +35,6 @@ class AIService {
       model: ollama("ministral-3:3b"),
       prompt: await convertToModelMessages(this.messages),
       system: systemPrompts.edit,
-      onChunk: (chunk) => {
-        console.log(chunk);
-      },
     });
 
     flowchart.pipeUIMessageStreamToResponse(this.res);

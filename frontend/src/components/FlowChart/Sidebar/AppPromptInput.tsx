@@ -55,21 +55,25 @@ const AppPromptInput = ({
         />
       </PromptInputBody>
       <PromptInputFooter>
-        <ToggleGroup
-          type="single"
-          value={userQuery}
-          onValueChange={(value) => {
-            if (value) setUserQuery(value as "ask" | "agent");
-          }}
-          className=" border-2 border-border"
-        >
-          <ToggleGroupItem value="ask" aria-label="Ask mode">
-            Ask
-          </ToggleGroupItem>
-          <ToggleGroupItem value="agent" aria-label="Agent mode">
-            Agent
-          </ToggleGroupItem>
-        </ToggleGroup>
+        <PromptInputTools>
+          {status !== "submitted" && status !== "streaming" && (
+            <ToggleGroup
+              type="single"
+              value={userQuery}
+              onValueChange={(value) => {
+                if (value) setUserQuery(value as "ask" | "agent");
+              }}
+              className=" border-2 border-border"
+            >
+              <ToggleGroupItem value="ask" aria-label="Ask mode">
+                Ask
+              </ToggleGroupItem>
+              <ToggleGroupItem value="agent" aria-label="Agent mode">
+                Agent
+              </ToggleGroupItem>
+            </ToggleGroup>
+          )}
+        </PromptInputTools>
         <PromptInputSubmit disabled={!text && !status} status={status} />
       </PromptInputFooter>
     </PromptInput>

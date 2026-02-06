@@ -74,11 +74,6 @@ export default function App() {
     [],
   );
 
-  useEffect(() => {
-    console.log("Nodes : ", nodes);
-    console.log("Edges : ", edges);
-  }, [nodes, edges]);
-
   return (
     <div className="w-screen h-screen flex flex-col jetbrains-mono">
       <TopBar />

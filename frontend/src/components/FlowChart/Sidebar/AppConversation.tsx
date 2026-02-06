@@ -8,12 +8,47 @@ import {
   MessageContent,
   MessageResponse,
 } from "@/components/ai-elements/message";
-import type { UIMessage } from "ai";
-import { Zap, Edit3, GitBranch } from "lucide-react";
+import type { ChatStatus, UIMessage } from "ai";
+import { Zap, Edit3, GitBranch, CheckIcon } from "lucide-react";
 
 type AppConversationProps = {
   messages: UIMessage[];
+  userQuery: "ask" | "agent";
+  status: ChatStatus;
 };
+
+const LoadingAnimation = () => (
+  <div className="flex items-center gap-2">
+    <div className="flex gap-1">
+      <div
+        className="h-2 w-2 rounded-full bg-blue-500 animate-bounce"
+        style={{ animationDelay: "0s" }}
+      />
+      <div
+        className="h-2 w-2 rounded-full bg-blue-500 animate-bounce"
+        style={{ animationDelay: "0.2s" }}
+      />
+      <div
+        className="h-2 w-2 rounded-full bg-blue-500 animate-bounce"
+        style={{ animationDelay: "0.4s" }}
+      />
+    </div>
+    <span className="text-sm font-medium text-gray-600">
+      Creating flowchart
+    </span>
+  </div>
+);
+
+const SuccessMessage = () => (
+  <div className="flex items-center gap-2 rounded-lg bg-green-50 px-4 py-3 border border-green-200">
+    <span className="text-2xl">
+      <CheckIcon />
+    </span>
+    <span className="text-sm font-medium text-green-700">
+      Flowchart created successfully!
+    </span>
+  </div>
+);
 
 const EmptyState = () => (
   <div className="flex flex-col items-center justify-center gap-8 px-4 py-12 text-center">
@@ -66,28 +101,41 @@ const EmptyState = () => (
   </div>
 );
 
-const AppConversation = ({ messages }: AppConversationProps) => {
+const AppConversation = ({
+  messages,
+  userQuery,
+  status,
+}: AppConversationProps) => {
   return (
     <Conversation className="flex-1 overflow-y-auto">
       <ConversationContent>
         {messages.length === 0 ? (
           <EmptyState />
         ) : (
-          messages.map((message) => (
+          messages.map((message, index) => (
             <Message from={message.role} key={message.id}>
               <MessageContent>
-                {message.parts.map((part, i) => {
-                  switch (part.type) {
-                    case "text":
-                      return (
-                        <MessageResponse key={`${message.id}-${i}`}>
-                          {part.text}
-                        </MessageResponse>
-                      );
-                    default:
-                      return null;
-                  }
-                })}
+                {userQuery === "agent" &&
+                status === "streaming" &&
+                message.role === "assistant" &&
+                index === messages.length - 1 ? (
+                  <LoadingAnimation />
+                ) : message.content?.includes("{done}") ? (
+                  <SuccessMessage />
+                ) : (
+                  message.parts.map((part, i) => {
+                    switch (part.type) {
+                      case "text":
+                        return (
+                          <MessageResponse key={`${message.id}-${i}`}>
+                            {part.text}
+                          </MessageResponse>
+                        );
+                      default:
+                        return null;
+                    }
+                  })
+                )}
               </MessageContent>
             </Message>
           ))

@@ -17,16 +17,12 @@ const EdgeContextMenu: React.FC<EdgeContextMenuProps> = ({
   onDelete,
 }) => {
   const handleDelete = () => {
-    console.log("Deleting edge:", edgeId);
     onDelete(edgeId);
     setContextMenu(null);
   };
 
   useEffect(() => {
-    console.log("Context menu state:", contextMenu);
-
     const handleClickOutside = () => {
-      console.log("Closing context menu");
       setContextMenu(null);
     };
 
