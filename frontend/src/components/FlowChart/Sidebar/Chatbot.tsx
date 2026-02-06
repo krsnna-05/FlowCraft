@@ -70,6 +70,8 @@ const Chatbot = () => {
               type: "defaultAppEdge",
               source: sourceId,
               target: targetId,
+              sourceHandle: "source-" + operation.edgeData.handles.source,
+              targetHandle: "target-" + operation.edgeData.handles.target,
             });
           }
         } catch {
